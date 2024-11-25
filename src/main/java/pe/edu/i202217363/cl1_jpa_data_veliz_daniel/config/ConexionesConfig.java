@@ -3,14 +3,9 @@ package pe.edu.i202217363.cl1_jpa_data_veliz_daniel.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 @Configuration
 public class ConexionesConfig {
@@ -38,17 +33,5 @@ public class ConexionesConfig {
         config.setConnectionTimeout(45000); //45 segundos en milisegundos
 
         return new HikariDataSource(config);
-    }
-
-    @Bean
-    public WebServerFactoryCustomizer<TomcatServletWebServerFactory> tomcatFactoryCustomizer(HikariDataSource hikariDataSource) {
-        return factory -> factory.addContextCustomizers(context -> {
-            try {
-                Context initCtx = new InitialContext();
-                initCtx.bind("java:comp/env/jdbc/World",hikariDataSource);
-            }catch (NamingException e){
-                e.printStackTrace();
-            }
-        });
     }
 }

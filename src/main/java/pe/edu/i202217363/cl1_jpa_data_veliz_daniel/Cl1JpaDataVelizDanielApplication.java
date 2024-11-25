@@ -1,5 +1,6 @@
 package pe.edu.i202217363.cl1_jpa_data_veliz_daniel;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,16 +21,17 @@ public class Cl1JpaDataVelizDanielApplication implements CommandLineRunner {
 	}
 
 	@Override
+	@Transactional
 	public void run(String... args) throws Exception {
 
 		//ifPresentOrElse()
 		countryRepository.findById("ARG").ifPresentOrElse(country -> {
 			System.out.println("Idiomas de Argentina:");
-			country.getIdiomas().forEach(lang -> System.out.println(lang.getLanguage()));
+			country.getIdiomas().forEach(lang -> System.out.println(lang.getLanguagePk().getLanguage()));
 		},
 				() -> countryRepository.findById("PER").ifPresent(country -> {
 					System.out.println("Idiomas de Peru:");
-					country.getIdiomas().forEach(lang -> System.out.println(lang.getLanguage()));
+					country.getIdiomas().forEach(lang -> System.out.println(lang.getLanguagePk().getLanguage()));
 				})
 		);
 

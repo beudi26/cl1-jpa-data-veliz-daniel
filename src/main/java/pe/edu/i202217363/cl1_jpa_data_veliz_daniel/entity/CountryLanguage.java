@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "countrylanguage")
 public class CountryLanguage {
-    @Id
-    private String Language;
+    @EmbeddedId
+    private LanguagePk LanguagePk;
     private String IsOfficial;
     private Double Percentage;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "CountryCode", nullable = false, insertable = false, updatable = false)
+    @MapsId("CountryCode")
     private Country country;
 }
